@@ -1,0 +1,47 @@
+# postgres-statefulset.yaml
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  serviceName: "postgres"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        env:
+        - name: POSTGRES_DB
+          value: mydatabase
+        - name: POSTGRES_USER
+          value: myuser
+        - name: POSTGRES_PASSWORD
+          value: mypassword
+        ports:
+        - containerPort: 5432
+          name: postgres
+
+---
+# service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+# You can add an Ingress resource or other components based on your requirements.
