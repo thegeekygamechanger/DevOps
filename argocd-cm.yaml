@@ -1,0 +1,10 @@
+# argocd-cm.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  repositories: |
+    - url: 'https://github.com/your-username/my-gitops-repo'
+      sshPrivateKeySecret: argocd-ssh-secret
